@@ -8,13 +8,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import java.time.Duration;
+
 public class WebDriverUtility {
 
     public static WebDriver getWebDriver(Browser browser) {
         WebDriver webDriver;
         switch (browser) {
             case FIREFOX:
-                WebDriverManager.firefoxdriver().setup();
+                //add clearDriverCache() to the setup because of an issue with version 108 of Firefox, as mentioned in the WebDriverManager GitHUb
+                WebDriverManager.firefoxdriver().clearDriverCache().setup();
                 webDriver = new FirefoxDriver(getFireFoxOptions());
                 break;
             case CHROME:
@@ -22,6 +25,7 @@ public class WebDriverUtility {
                 WebDriverManager.chromedriver().setup();
                 webDriver = new ChromeDriver(getChromeOptions());
         }
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         webDriver.manage().window().maximize();
 
         return webDriver;
@@ -38,7 +42,7 @@ public class WebDriverUtility {
         // To start chrome in english
         options.addArguments("lang=en-GB");
         // To start chrome without security warning
-        options.addArguments("disable-infobars");
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         return options;
     }
 
