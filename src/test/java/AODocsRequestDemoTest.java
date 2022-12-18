@@ -18,6 +18,12 @@ public class AODocsRequestDemoTest {
     public final static String REQUIRED_DROPDOWN_SELECTION_ERROR_MESSAGE = "Please select an option from the dropdown menu.";
     WebDriver driver;
 
+    /***
+     *  For the implementation of this code assignment I decided to use the Selenium Page Object Model pattern,
+     *  in order to have a more organized JUnit test and overall code.
+     *  I had to put the browser inizialization inside the test class instead of @before/beforeAll hook because JUnit
+     *  parameterized test does not support parameterized hooks for now.
+     */
     @ParameterizedTest
     @EnumSource(Browser.class)
     void test_AODocsRequestDemoErrorMessagesAreCorrectlyDisplayed(Browser browser) {
